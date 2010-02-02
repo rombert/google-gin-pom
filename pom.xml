@@ -1,66 +1,74 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.google.gwt.inject</groupId>
-  <artifactId>gin</artifactId>
-  <version>1.0</version>
-  <packaging>jar</packaging>
-  <name>GIN (GWT INjection)</name>
-  <description>GIN (GWT INjection) brings automatic dependency injection to Google Web Toolkit client-side code. GIN is built on top of Guice and uses (a subset of) Guice's binding language. </description>
-  <url>http://code.google.com/p/google-gin/</url>
-  <developers>
-  	<developer>
-  		<id>bstoler</id>
-  		<name>Brian Stoler</name>
-  	</developer>
-  	<developer>
-  		<id>aragos</id>
-  		<name>Peter Schmitt</name>
-  	</developer>
-  	<developer>
-  		<id>limpbizkit</id>
-  		<name>Jesse Wilson</name>
-  	</developer>
-  	<developer>
-  		<id>robbie.vanbrabant</id>
-  		<name>Robbie Vanbrabant</name>
-  	</developer>
-  </developers>
-  <licenses>
-  	<license>
-  		<name>Apache License 2.0</name>
-  		<url>http://www.apache.org/licenses/LICENSE-2.0</url>
-  	</license>
-  </licenses>
-  <issueManagement>
-  	<system>Google code</system>
-  	<url>http://code.google.com/p/google-gin/issues/list</url>
-  </issueManagement>
-  <scm>
-  	<connection>http://google-gin.googlecode.com/svn/tags/1.0.0</connection>
-  	<developerConnection>https://google-gin.googlecode.com/svn/tags/1.0.0</developerConnection>
-  	<url>http://code.google.com/p/google-gin/source/browse/</url>
-  </scm>
-  <dependencies>
-    <dependency>
-      <groupId>com.google.inject</groupId>
-      <artifactId>guice</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-    	<groupId>com.google.gwt</groupId>
-    	<artifactId>gwt-user</artifactId>
-    	<version>${com.google.gwt.version}</version>
-    	<type>jar</type>
-    	<scope>provided</scope>
-    </dependency>
-    <dependency>
-    	<groupId>com.google.gwt</groupId>
-    	<artifactId>gwt-servlet</artifactId>
-    	<version>${com.google.gwt.version}</version>
-    	<scope>runtime</scope>
-    </dependency>
-  </dependencies>
-  <properties>
-  	<com.google.gwt.version>1.5.3</com.google.gwt.version>
-  </properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.google.gwt.inject</groupId>
+	<artifactId>gin</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>GIN (GWT INjection)</name>
+	<description>GIN (GWT INjection) brings automatic dependency injection to Google Web Toolkit client-side code. GIN is built on top of Guice and uses (a subset of) Guice's binding language. </description>
+	<url>http://code.google.com/p/google-gin/</url>
+	<developers>
+		<developer>
+			<id>bstoler</id>
+			<name>Brian Stoler</name>
+		</developer>
+		<developer>
+			<id>aragos</id>
+			<name>Peter Schmitt</name>
+		</developer>
+		<developer>
+			<id>limpbizkit</id>
+			<name>Jesse Wilson</name>
+		</developer>
+		<developer>
+			<id>robbie.vanbrabant</id>
+			<name>Robbie Vanbrabant</name>
+		</developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>Apache License 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
+	<issueManagement>
+		<system>Google code</system>
+		<url>http://code.google.com/p/google-gin/issues/list</url>
+	</issueManagement>
+	<scm>
+		<connection>http://google-gin.googlecode.com/svn/tags/1.0.0</connection>
+		<developerConnection>https://google-gin.googlecode.com/svn/tags/1.0.0</developerConnection>
+		<url>http://code.google.com/p/google-gin/source/browse/</url>
+	</scm>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>${com.google.gwt.version}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>${com.google.gwt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
+	<properties>
+		<com.google.gwt.version>1.5.3</com.google.gwt.version>
+	</properties>
 </project>
