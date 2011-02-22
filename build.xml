@@ -7,9 +7,11 @@
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml"
 		uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
 
-
-	<property name="gin.jar.file" value="gin-1.0.jar" />
-	<property name="gin.javadoc.file" value="gin-1.0-javadoc.jar" />
+	<property name="maven-repository-url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2/" />
+	<property name="maven-repository-id" value="sonatype-nexus-staging" />
+	<property name="gin.jar.file" value="gin-1.5-post-gwt-2.2.jar" />
+	<property name="gin.javadoc.file" value="gin-1.5-javadoc.jar" />
+	<property name="gin.sources.file" value="gin-1.5-sources.jar" />
 
 	<target name="-check">
 
@@ -20,15 +22,42 @@
 		<artifact:install file="${gin.jar.file}">
 			<pom refid="gin-pom" />
 			<attach file="${gin.javadoc.file}" classifier="javadoc" />
+			<attach file="${gin.sources.file}" classifier="sources" />
 		</artifact:install>
 	</target>
 
-	<target name="deploy" depends="-check">
-		<artifact:pom id="gin-pom" file="pom.xml" />
-		<artifact:deploy file="${gin.jar.file}">
-			<pom refid="gin-pom" />
-			<attach file="${gin.javadoc.file}" classifier="javadoc" />
-		</artifact:deploy>
+	<target name="deploy" depends="-check" description="deploy to Nexus">
+		<!-- sign and deploy the main artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.1:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-repository-url}" />
+			<arg value="-DrepositoryId=${maven-repository-id}" />
+			<arg value="-DpomFile=pom.xml" />
+			<arg value="-Dfile=${gin.jar.file}" />
+                        <arg value="-Pgpg" />
+		</artifact:mvn>
+
+		<!-- sign and deploy the sources artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.1:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-repository-url}" />
+			<arg value="-DrepositoryId=${maven-repository-id}" />
+			<arg value="-DpomFile=pom.xml" />
+			<arg value="-Dfile=${gin.sources.file}" />
+			<arg value="-Dclassifier=sources" />
+                        <arg value="-Pgpg" />
+		</artifact:mvn>
+
+		<!-- sign and deploy the javadoc artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.1:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-repository-url}" />
+			<arg value="-DrepositoryId=${maven-repository-id}" />
+			<arg value="-DpomFile=pom.xml" />
+			<arg value="-Dfile=${gin.javadoc.file}" />
+			<arg value="-Dclassifier=javadoc" />
+                        <arg value="-Pgpg" />
+		</artifact:mvn>
 	</target>
 
 </project>

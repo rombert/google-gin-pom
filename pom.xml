@@ -8,7 +8,7 @@
 	</parent>	
 	<groupId>com.googlecode.gwt.inject</groupId>
 	<artifactId>gin</artifactId>
-	<version>1.0</version>
+	<version>1.5</version>
 	<packaging>jar</packaging>
 	<name>GIN (GWT INjection)</name>
 	<description>GIN (GWT INjection) brings automatic dependency injection to Google Web Toolkit client-side code. GIN is built on top of Guice and uses (a subset of) Guice's binding language. </description>
@@ -42,8 +42,8 @@
 		<url>http://code.google.com/p/google-gin/issues/list</url>
 	</issueManagement>
 	<scm>
-		<connection>http://google-gin.googlecode.com/svn/tags/1.0.0</connection>
-		<developerConnection>https://google-gin.googlecode.com/svn/tags/1.0.0</developerConnection>
+		<connection>http://google-gin.googlecode.com/svn/tags/1.5.0-post-gwt-2.2</connection>
+		<developerConnection>https://google-gin.googlecode.com/svn/tags/1.5.0-post-gwt-2.2</developerConnection>
 		<url>http://code.google.com/p/google-gin/source/browse/</url>
 	</scm>
 	<distributionManagement>
@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
-			<version>2.0</version>
+			<version>3.0-rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -74,6 +74,6 @@
 		</dependency>
 	</dependencies>
 	<properties>
-		<com.google.gwt.version>1.5.3</com.google.gwt.version>
+		<com.google.gwt.version>2.2.0</com.google.gwt.version>
 	</properties>
 </project>
