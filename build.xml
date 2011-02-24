@@ -12,10 +12,11 @@
 	<property name="maven-repository-id" value="sonatype-nexus-staging" />
 	<property name="gin.zip.dir" value="target/gin"/>
 	<property name="gin.artifacts.dir" value="target/artifacts"/>
-	<property name="gin.version" value="1.5"/>
+	<property name="gin.version" value="1.5.0"/>
+	<property name="gin.download.version" value="1.5"/>
 
-	<property name="gin-pre-2.2.jar.file" value="${gin.artifacts.dir}/gin-${gin.version}-pre-gwt-2.2.jar"/>
-	<property name="gin-post-2.2.jar.file" value="${gin.artifacts.dir}/gin-${gin.version}-post-gwt-2.2.jar"/>
+	<property name="gin-pre-2.2.jar.file" value="${gin.artifacts.dir}/gin-${gin.download.version}-pre-gwt-2.2.jar"/>
+	<property name="gin-post-2.2.jar.file" value="${gin.artifacts.dir}/gin-${gin.download.version}-post-gwt-2.2.jar"/>
 	<property name="gin-pre-2.2.javadoc.file" value="${gin.artifacts.dir}/gin-${gin.version}-pre-gwt-2.2-javadoc.jar"/>
 	<property name="gin-post-2.2.javadoc.file" value="${gin.artifacts.dir}/gin-${gin.version}-post-gwt-2.2-javadoc.jar"/>
 	<property name="gin-pre-2.2.sources.file" value="${gin.artifacts.dir}/gin-${gin.version}-pre-gwt-2.2-sources.jar"/>
@@ -77,8 +78,8 @@
 	<target name="download-gin-zips" depends="check-artifacts-exist" if="gin.files.missing">
 
 		<mkdir dir="${gin.zip.dir}"/>
-		<get src="http://google-gin.googlecode.com/files/gin-${gin.version}.zip" dest="${gin.zip.dir}/gin-${gin.version}.zip"/>
-		<get src="http://google-gin.googlecode.com/files/gin-${gin.version}-src.zip" dest="${gin.zip.dir}/gin-${gin.version}-src.zip"/>
+		<get src="http://google-gin.googlecode.com/files/gin-${gin.download.version}.zip" dest="${gin.zip.dir}/gin-${gin.version}.zip"/>
+		<get src="http://google-gin.googlecode.com/files/gin-${gin.download.version}-src.zip" dest="${gin.zip.dir}/gin-${gin.version}-src.zip"/>
 	</target>
 
 	<target name="create-artifacts-from-gin-zips" depends="download-gin-zips">
@@ -87,26 +88,26 @@
 		<!-- extract the jars -->
 		<unzip src="${gin.zip.dir}/gin-${gin.version}.zip" dest="${gin.artifacts.dir}">
 			<patternset>
-				<include name="gin-${gin.version}-pre-gwt-2.2.jar"/>
-				<include name="gin-${gin.version}-post-gwt-2.2.jar"/>
+				<include name="gin-${gin.download.version}-pre-gwt-2.2.jar"/>
+				<include name="gin-${gin.download.version}-post-gwt-2.2.jar"/>
 			</patternset>
 		</unzip>
 
 		<!-- extract the javadoc and source directories -->
 		<unzip src="${gin.zip.dir}/gin-${gin.version}-src.zip" dest="${gin.artifacts.dir}">
 			<patternset>
-				<include name="gin-${gin.version}-pre-gwt.2.2/javadoc/**"/>
-				<include name="gin-${gin.version}-pre-gwt.2.2/src/**"/>
-				<include name="gin-${gin.version}-post-gwt.2.2/javadoc/**"/>
-				<include name="gin-${gin.version}-post-gwt.2.2/src/**"/>
+				<include name="gin-${gin.download.version}-pre-gwt.2.2/javadoc/**"/>
+				<include name="gin-${gin.download.version}-pre-gwt.2.2/src/**"/>
+				<include name="gin-${gin.download.version}-post-gwt.2.2/javadoc/**"/>
+				<include name="gin-${gin.download.version}-post-gwt.2.2/src/**"/>
 			</patternset>
 		</unzip>
 
 		<!-- create the artifacts from the directories -->
-		<zip destfile="${gin-pre-2.2.javadoc.file}" basedir="${gin.artifacts.dir}/gin-1.5-pre-gwt.2.2/javadoc/"/>
-		<zip destfile="${gin-pre-2.2.sources.file}" basedir="${gin.artifacts.dir}/gin-1.5-pre-gwt.2.2/src/"/>
-		<zip destfile="${gin-post-2.2.javadoc.file}" basedir="${gin.artifacts.dir}/gin-1.5-post-gwt.2.2/javadoc/"/>
-		<zip destfile="${gin-post-2.2.sources.file}" basedir="${gin.artifacts.dir}/gin-1.5-post-gwt.2.2/src/"/>
+		<zip destfile="${gin-pre-2.2.javadoc.file}" basedir="${gin.artifacts.dir}/gin-${gin.download.version}-pre-gwt.2.2/javadoc/"/>
+		<zip destfile="${gin-pre-2.2.sources.file}" basedir="${gin.artifacts.dir}/gin-${gin.download.version}-pre-gwt.2.2/src/"/>
+		<zip destfile="${gin-post-2.2.javadoc.file}" basedir="${gin.artifacts.dir}/gin-${gin.download.version}-post-gwt.2.2/javadoc/"/>
+		<zip destfile="${gin-post-2.2.sources.file}" basedir="${gin.artifacts.dir}/gin-${gin.download.version}-post-gwt.2.2/src/"/>
 	</target>
 
 	<target name="create-poms">
@@ -114,14 +115,14 @@
 			<filterset>
 				<filter token="GIN.VERSION" value="${gin.version}-pre-2.2"/>
 				<filter token="GWT.VERSION" value="1.5.3"/>
-				<filter token="GIN.TAG" value="1.5.0-pre-gwt-2.2"/>
+				<filter token="GIN.TAG" value="${gin.version}-pre-gwt-2.2"/>
 			</filterset>
 		</copy>
 		<copy file="pom.xml.in" tofile="${gin-post-2.2.pom.file}">
 			<filterset>
 				<filter token="GIN.VERSION" value="${gin.version}-post-2.2"/>
 				<filter token="GWT.VERSION" value="2.2.0"/>
-				<filter token="GIN.TAG" value="1.5.0-post-gwt-2.2"/>
+				<filter token="GIN.TAG" value="${gin.version}-post-gwt-2.2"/>
 			</filterset>
 		</copy>
 	</target>
