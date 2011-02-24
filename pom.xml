@@ -57,7 +57,12 @@
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
-			<version>3.0-rc2</version>
+			<version>${com.google.guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-assisted-inject</artifactId>
+			<version>${com.google.guice.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -75,5 +80,6 @@
 	</dependencies>
 	<properties>
 		<com.google.gwt.version>2.2.0</com.google.gwt.version>
+		<com.google.guice.version>3.0-rc2</com.google.guice.version>
 	</properties>
 </project>
