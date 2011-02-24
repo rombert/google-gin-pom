@@ -13,6 +13,7 @@
 	<property name="gin.javadoc.file" value="gin-1.5-javadoc.jar" />
 	<property name="gin.sources.file" value="gin-1.5-sources.jar" />
 	<property name="gin.zip.dir" value="target/gin"/>
+	<property name="gin.artifacts.dir" value="target/artifacts"/>
 
 	<target name="-check">
 
@@ -61,9 +62,51 @@
 		</artifact:mvn>
 	</target>
 
-	<target name="download-gin-zips">
+	<target name="check-artifacts-exist">
+		<mkdir dir="target"/>
+		<condition property="gin.files.missing">
+			<not>
+				<and>
+					<available file="${gin.zip.dir}/gin-1.5.zip"/>
+					<available file="${gin.zip.dir}/gin-1.5-src.zip"/>
+				</and>
+			</not>
+		</condition>
+	</target>
+
+	<target name="download-gin-zips" depends="check-artifacts-exist" if="gin.files.missing">
+
+		<mkdir dir="${gin.zip.dir}"/>
 		<get src="http://google-gin.googlecode.com/files/gin-1.5.zip" dest="${gin.zip.dir}/gin-1.5.zip"/>
 		<get src="http://google-gin.googlecode.com/files/gin-1.5-src.zip" dest="${gin.zip.dir}/gin-1.5-src.zip"/>
+	</target>
+
+	<target name="create-artifacts-from-gin-zips" depends="download-gin-zips">
+		<mkdir dir="${gin.artifacts.dir}"/>
+
+		<!-- extract the jars -->
+		<unzip src="${gin.zip.dir}/gin-1.5.zip" dest="${gin.artifacts.dir}">
+			<patternset>
+				<include name="gin-1.5-post-gwt-2.2.jar"/>
+				<include name="gin-1.5-pre-gwt-2.2.jar"/>
+			</patternset>
+		</unzip>
+
+		<!-- extract the javadoc and source directories -->
+		<unzip src="${gin.zip.dir}/gin-1.5-src.zip" dest="${gin.artifacts.dir}">
+			<patternset>
+				<include name="gin-1.5-pre-gwt.2.2/javadoc/**"/>
+				<include name="gin-1.5-pre-gwt.2.2/src/**"/>
+				<include name="gin-1.5-post-gwt.2.2/javadoc/**"/>
+				<include name="gin-1.5-post-gwt.2.2/src/**"/>
+			</patternset>
+		</unzip>
+
+		<!-- create the artifacts from the directories -->
+		<zip destfile="${gin.artifacts.dir}/gin-1.5-pre-gwt-2.2-javadoc.jar" basedir="${gin.artifacts.dir}/gin-1.5-pre-gwt.2.2/javadoc/"/>
+		<zip destfile="${gin.artifacts.dir}/gin-1.5-pre-gwt-2.2-sources.jar" basedir="${gin.artifacts.dir}/gin-1.5-pre-gwt.2.2/src/"/>
+		<zip destfile="${gin.artifacts.dir}/gin-1.5-post-gwt-2.2-javadoc.jar" basedir="${gin.artifacts.dir}/gin-1.5-post-gwt.2.2/javadoc/"/>
+		<zip destfile="${gin.artifacts.dir}/gin-1.5-post-gwt-2.2-sources.jar" basedir="${gin.artifacts.dir}/gin-1.5-post-gwt.2.2/src/"/>
 	</target>
 
 </project>
