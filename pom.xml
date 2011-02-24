@@ -30,6 +30,23 @@
 			<id>robbie.vanbrabant</id>
 			<name>Robbie Vanbrabant</name>
 		</developer>
+		<developer>
+			<id>fazal.asim</id>
+			<name>Fazal Asim</id>
+		</developer>
+		<developer>
+			<id>dburrows</id>
+		</developer>
+		<developer>
+			<id>scottb</id>
+		</developer>
+		<developer>
+			<id>awiner</id>
+		</developer>
+		<developer>
+			<id>philippe.beaudoin</id>
+			<name>Philippe Beaudoin</name>
+		</developer>
 	</developers>
 	<licenses>
 		<license>
