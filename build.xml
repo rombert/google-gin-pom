@@ -7,59 +7,59 @@
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml"
 		uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
 
+
 	<property name="maven-repository-url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2/" />
 	<property name="maven-repository-id" value="sonatype-nexus-staging" />
-	<property name="gin.jar.file" value="gin-1.5-post-gwt-2.2.jar" />
-	<property name="gin.javadoc.file" value="gin-1.5-javadoc.jar" />
-	<property name="gin.sources.file" value="gin-1.5-sources.jar" />
 	<property name="gin.zip.dir" value="target/gin"/>
 	<property name="gin.artifacts.dir" value="target/artifacts"/>
+	<property name="gin.version" value="1.5"/>
 
-	<target name="-check">
+	<property name="gin-pre-2.2.jar.file" value="${gin.artifacts.dir}/gin-${gin.version}-pre-gwt-2.2.jar"/>
+	<property name="gin-post-2.2.jar.file" value="${gin.artifacts.dir}/gin-${gin.version}-post-gwt-2.2.jar"/>
+	<property name="gin-pre-2.2.javadoc.file" value="${gin.artifacts.dir}/gin-${gin.version}-pre-gwt-2.2-javadoc.jar"/>
+	<property name="gin-post-2.2.javadoc.file" value="${gin.artifacts.dir}/gin-${gin.version}-post-gwt-2.2-javadoc.jar"/>
+	<property name="gin-pre-2.2.sources.file" value="${gin.artifacts.dir}/gin-${gin.version}-pre-gwt-2.2-sources.jar"/>
+	<property name="gin-post-2.2.sources.file" value="${gin.artifacts.dir}/gin-${gin.version}-post-gwt-2.2-sources.jar"/>
+	<property name="gin-pre-2.2.pom.file" value="${gin.artifacts.dir}/pom-pre-2.2.xml"/>
+	<property name="gin-post-2.2.pom.file" value="${gin.artifacts.dir}/pom-post-2.2.xml"/>
 
-	</target>
+	<macrodef name="deploy-artifacts">
+		<attribute name="pom"/>
+		<attribute name="jar"/>
+		<attribute name="javadoc"/>
+		<attribute name="sources"/>
 
-	<target name="install" depends="-check">
-		<artifact:pom id="gin-pom" file="pom.xml" />
-		<artifact:install file="${gin.jar.file}">
-			<pom refid="gin-pom" />
-			<attach file="${gin.javadoc.file}" classifier="javadoc" />
-			<attach file="${gin.sources.file}" classifier="sources" />
-		</artifact:install>
-	</target>
+		<sequential>
+			<deploy-artifact pom="@{pom}" file="@{jar}" classifier=""/>
+			<deploy-artifact pom="@{pom}" file="@{javadoc}" classifier="javadoc"/>
+			<deploy-artifact pom="@{pom}" file="@{sources}" classifier="sources"/>
+		</sequential>
+	</macrodef>
 
-	<target name="deploy" depends="-check" description="deploy to Nexus">
-		<!-- sign and deploy the main artifact -->
-		<artifact:mvn>
-			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.1:sign-and-deploy-file" />
-			<arg value="-Durl=${maven-repository-url}" />
-			<arg value="-DrepositoryId=${maven-repository-id}" />
-			<arg value="-DpomFile=pom.xml" />
-			<arg value="-Dfile=${gin.jar.file}" />
-                        <arg value="-Pgpg" />
-		</artifact:mvn>
+	<macrodef name="deploy-artifact">
+		<attribute name="pom"/>
+		<attribute name="file"/>
+		<attribute name="classifier"/>
 
-		<!-- sign and deploy the sources artifact -->
-		<artifact:mvn>
-			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.1:sign-and-deploy-file" />
-			<arg value="-Durl=${maven-repository-url}" />
-			<arg value="-DrepositoryId=${maven-repository-id}" />
-			<arg value="-DpomFile=pom.xml" />
-			<arg value="-Dfile=${gin.sources.file}" />
-			<arg value="-Dclassifier=sources" />
-                        <arg value="-Pgpg" />
-		</artifact:mvn>
+		<sequential>
+			<artifact:mvn>
+				<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.1:sign-and-deploy-file" />
+				<arg value="-Durl=${maven-repository-url}" />
+				<arg value="-DrepositoryId=${maven-repository-id}" />
+				<arg value="-DpomFile=@{pom}" />
+				<arg value="-Dfile=@{file}" />
+				<arg value="-Dclassifier=@{classifier}"/>
+				<arg value="-Pgpg" />
+			</artifact:mvn>
+		</sequential>
+	</macrodef>
 
-		<!-- sign and deploy the javadoc artifact -->
-		<artifact:mvn>
-			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.1:sign-and-deploy-file" />
-			<arg value="-Durl=${maven-repository-url}" />
-			<arg value="-DrepositoryId=${maven-repository-id}" />
-			<arg value="-DpomFile=pom.xml" />
-			<arg value="-Dfile=${gin.javadoc.file}" />
-			<arg value="-Dclassifier=javadoc" />
-                        <arg value="-Pgpg" />
-		</artifact:mvn>
+	<target name="deploy" depends="create-artifacts" description="deploy to Nexus">
+
+		<deploy-artifacts pom="${gin-pre-2.2.pom.file}" jar="${gin-pre-2.2.jar.file}" 
+				  javadoc="${gin-pre-2.2.javadoc.file}" sources="${gin-pre-2.2.sources.file}"/>
+		<deploy-artifacts pom="${gin-post-2.2.pom.file}" jar="${gin-post-2.2.jar.file}"
+				  javadoc="${gin-post-2.2.javadoc.file}" sources="${gin-post-2.2.sources.file}"/>
 	</target>
 
 	<target name="check-artifacts-exist">
@@ -67,8 +67,8 @@
 		<condition property="gin.files.missing">
 			<not>
 				<and>
-					<available file="${gin.zip.dir}/gin-1.5.zip"/>
-					<available file="${gin.zip.dir}/gin-1.5-src.zip"/>
+					<available file="${gin.zip.dir}/gin-${gin.version}.zip"/>
+					<available file="${gin.zip.dir}/gin-${gin.version}-src.zip"/>
 				</and>
 			</not>
 		</condition>
@@ -77,36 +77,53 @@
 	<target name="download-gin-zips" depends="check-artifacts-exist" if="gin.files.missing">
 
 		<mkdir dir="${gin.zip.dir}"/>
-		<get src="http://google-gin.googlecode.com/files/gin-1.5.zip" dest="${gin.zip.dir}/gin-1.5.zip"/>
-		<get src="http://google-gin.googlecode.com/files/gin-1.5-src.zip" dest="${gin.zip.dir}/gin-1.5-src.zip"/>
+		<get src="http://google-gin.googlecode.com/files/gin-${gin.version}.zip" dest="${gin.zip.dir}/gin-${gin.version}.zip"/>
+		<get src="http://google-gin.googlecode.com/files/gin-${gin.version}-src.zip" dest="${gin.zip.dir}/gin-${gin.version}-src.zip"/>
 	</target>
 
 	<target name="create-artifacts-from-gin-zips" depends="download-gin-zips">
 		<mkdir dir="${gin.artifacts.dir}"/>
 
 		<!-- extract the jars -->
-		<unzip src="${gin.zip.dir}/gin-1.5.zip" dest="${gin.artifacts.dir}">
+		<unzip src="${gin.zip.dir}/gin-${gin.version}.zip" dest="${gin.artifacts.dir}">
 			<patternset>
-				<include name="gin-1.5-post-gwt-2.2.jar"/>
-				<include name="gin-1.5-pre-gwt-2.2.jar"/>
+				<include name="gin-${gin.version}-pre-gwt-2.2.jar"/>
+				<include name="gin-${gin.version}-post-gwt-2.2.jar"/>
 			</patternset>
 		</unzip>
 
 		<!-- extract the javadoc and source directories -->
-		<unzip src="${gin.zip.dir}/gin-1.5-src.zip" dest="${gin.artifacts.dir}">
+		<unzip src="${gin.zip.dir}/gin-${gin.version}-src.zip" dest="${gin.artifacts.dir}">
 			<patternset>
-				<include name="gin-1.5-pre-gwt.2.2/javadoc/**"/>
-				<include name="gin-1.5-pre-gwt.2.2/src/**"/>
-				<include name="gin-1.5-post-gwt.2.2/javadoc/**"/>
-				<include name="gin-1.5-post-gwt.2.2/src/**"/>
+				<include name="gin-${gin.version}-pre-gwt.2.2/javadoc/**"/>
+				<include name="gin-${gin.version}-pre-gwt.2.2/src/**"/>
+				<include name="gin-${gin.version}-post-gwt.2.2/javadoc/**"/>
+				<include name="gin-${gin.version}-post-gwt.2.2/src/**"/>
 			</patternset>
 		</unzip>
 
 		<!-- create the artifacts from the directories -->
-		<zip destfile="${gin.artifacts.dir}/gin-1.5-pre-gwt-2.2-javadoc.jar" basedir="${gin.artifacts.dir}/gin-1.5-pre-gwt.2.2/javadoc/"/>
-		<zip destfile="${gin.artifacts.dir}/gin-1.5-pre-gwt-2.2-sources.jar" basedir="${gin.artifacts.dir}/gin-1.5-pre-gwt.2.2/src/"/>
-		<zip destfile="${gin.artifacts.dir}/gin-1.5-post-gwt-2.2-javadoc.jar" basedir="${gin.artifacts.dir}/gin-1.5-post-gwt.2.2/javadoc/"/>
-		<zip destfile="${gin.artifacts.dir}/gin-1.5-post-gwt-2.2-sources.jar" basedir="${gin.artifacts.dir}/gin-1.5-post-gwt.2.2/src/"/>
+		<zip destfile="${gin-pre-2.2.javadoc.file}" basedir="${gin.artifacts.dir}/gin-1.5-pre-gwt.2.2/javadoc/"/>
+		<zip destfile="${gin-pre-2.2.sources.file}" basedir="${gin.artifacts.dir}/gin-1.5-pre-gwt.2.2/src/"/>
+		<zip destfile="${gin-post-2.2.javadoc.file}" basedir="${gin.artifacts.dir}/gin-1.5-post-gwt.2.2/javadoc/"/>
+		<zip destfile="${gin-post-2.2.sources.file}" basedir="${gin.artifacts.dir}/gin-1.5-post-gwt.2.2/src/"/>
 	</target>
+
+	<target name="create-poms">
+		<copy file="pom.xml.in" tofile="${gin-pre-2.2.pom.file}">
+			<filterset>
+				<filter token="GIN.VERSION" value="${gin.version}-pre-2.2"/>
+				<filter token="GWT.VERSION" value="1.5.3"/>
+			</filterset>
+		</copy>
+		<copy file="pom.xml.in" tofile="${gin-post-2.2.pom.file}">
+			<filterset>
+				<filter token="GIN.VERSION" value="${gin.version}-post-2.2"/>
+				<filter token="GWT.VERSION" value="2.2.0"/>
+			</filterset>
+		</copy>
+	</target>
+
+	<target name="create-artifacts" depends="create-artifacts-from-gin-zips,create-poms"/>
 
 </project>
