@@ -114,12 +114,14 @@
 			<filterset>
 				<filter token="GIN.VERSION" value="${gin.version}-pre-2.2"/>
 				<filter token="GWT.VERSION" value="1.5.3"/>
+				<filter token="GIN.TAG" value="1.5.0-pre-gwt-2.2"/>
 			</filterset>
 		</copy>
 		<copy file="pom.xml.in" tofile="${gin-post-2.2.pom.file}">
 			<filterset>
 				<filter token="GIN.VERSION" value="${gin.version}-post-2.2"/>
 				<filter token="GWT.VERSION" value="2.2.0"/>
+				<filter token="GIN.TAG" value="1.5.0-post-gwt-2.2"/>
 			</filterset>
 		</copy>
 	</target>

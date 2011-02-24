@@ -59,8 +59,8 @@
 		<url>http://code.google.com/p/google-gin/issues/list</url>
 	</issueManagement>
 	<scm>
-		<connection>http://google-gin.googlecode.com/svn/tags/1.5.0-post-gwt-2.2</connection>
-		<developerConnection>https://google-gin.googlecode.com/svn/tags/1.5.0-post-gwt-2.2</developerConnection>
+		<connection>http://google-gin.googlecode.com/svn/tags/@GIN.TAG@</connection>
+		<developerConnection>https://google-gin.googlecode.com/svn/tags/@GIN.TAG@</developerConnection>
 		<url>http://code.google.com/p/google-gin/source/browse/</url>
 	</scm>
 	<distributionManagement>
