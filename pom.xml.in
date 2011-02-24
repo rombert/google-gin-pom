@@ -8,7 +8,7 @@
 	</parent>	
 	<groupId>com.googlecode.gwt.inject</groupId>
 	<artifactId>gin</artifactId>
-	<version>1.5</version>
+	<version>@GIN.VERSION@</version>
 	<packaging>jar</packaging>
 	<name>GIN (GWT INjection)</name>
 	<description>GIN (GWT INjection) brings automatic dependency injection to Google Web Toolkit client-side code. GIN is built on top of Guice and uses (a subset of) Guice's binding language. </description>
@@ -96,7 +96,7 @@
 		</dependency>
 	</dependencies>
 	<properties>
-		<com.google.gwt.version>2.2.0</com.google.gwt.version>
+		<com.google.gwt.version>@GWT.VERSION@</com.google.gwt.version>
 		<com.google.guice.version>3.0-rc2</com.google.guice.version>
 	</properties>
 </project>
