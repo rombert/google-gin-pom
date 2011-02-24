@@ -12,6 +12,7 @@
 	<property name="gin.jar.file" value="gin-1.5-post-gwt-2.2.jar" />
 	<property name="gin.javadoc.file" value="gin-1.5-javadoc.jar" />
 	<property name="gin.sources.file" value="gin-1.5-sources.jar" />
+	<property name="gin.zip.dir" value="target/gin"/>
 
 	<target name="-check">
 
@@ -58,6 +59,11 @@
 			<arg value="-Dclassifier=javadoc" />
                         <arg value="-Pgpg" />
 		</artifact:mvn>
+	</target>
+
+	<target name="download-gin-zips">
+		<get src="http://google-gin.googlecode.com/files/gin-1.5.zip" dest="${gin.zip.dir}/gin-1.5.zip"/>
+		<get src="http://google-gin.googlecode.com/files/gin-1.5-src.zip" dest="${gin.zip.dir}/gin-1.5-src.zip"/>
 	</target>
 
 </project>
