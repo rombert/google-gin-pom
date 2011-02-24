@@ -15,4 +15,4 @@ the 1.5 version of gin, and deploy them to the sonatype
 staging repository.
 
 To perform deployment, please make sure to follow the instructions
-at [https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-7c.StageArtifactswithAnt](Staging artifacts with Ant) and to have a GPG key configured.
+at [Staging artifacts with Ant](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-7c.StageArtifactswithAnt) and to have a GPG key configured.
