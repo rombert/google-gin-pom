@@ -3,14 +3,16 @@ Google-Gin Maven deployment
 
 This project contains
 
-* a pom.xml file to be deployed with the jar files;
+* a pom.xml.in template to be deployed with the jar files;
 * a build.xml used to deploy the jar files;
 
-To deploy the artifacts:
+The current version works with Gin 1.5 and deploys both
+pre-2.2 and post-2.2 artifacts with javadoc and source as
+two different gin versions, 1.5-pre-2.2 and 1.5-post-2.2.
 
-1. Build the gin jar and gin javadoc jar;
-1. Adjust the version (if needed) in the pom.xml file;
-1. Run <code>ant -Dgin.jar.file=../gin/gin.jar -Dgin.javadoc.file=../gin/javadoc.jar</code>
+To deploy the artifacts run ant deploy. This will retrieve
+the 1.5 version of gin, and deploy them to the sonatype
+staging repository.
 
-Please note that this pom.xml file is intended only for deployment, it is not
-able to describe the gin compilation process.
+To perform deployment, please make sure to follow the instructions
+at [https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-7c.StageArtifactswithAnt](Staging artifacts with Ant) and to have a GPG key configured.
